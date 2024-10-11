@@ -30,23 +30,19 @@ const moveBlock = () => {
     if (positionX < parentWidth && positionY === 0) {
         positionX++;
         childBlock.style.left = `${positionX}px`;
-        requestAnimationFrame(moveBlock);
     } else if (positionX >= parentWidth && positionY < parentHeight) {
         positionY++;
         childBlock.style.top = `${positionY}px`;
-        requestAnimationFrame(moveBlock);
     } else if (positionY >= parentHeight && positionX > 0) {
         positionX--;
         childBlock.style.left = `${positionX}px`;
-        requestAnimationFrame(moveBlock);
     } else if (positionX === 0 && positionY > 0) {
         positionY--;
         childBlock.style.top = `${positionY}px`;
-        requestAnimationFrame(moveBlock);
-    }
+    } setTimeout (moveBlock, 0.5)
 };
 
-moveBlock();
+moveBlock()
 
 
 // HOMEWORK 2
@@ -57,28 +53,26 @@ let stopButton = document.getElementById('stop');
 let resetButton = document.getElementById('reset');
 
 let counter = 0;
-let intervalId = null;
-
-const startCounter = () => {
-    if (!intervalId) {
+let switchTriger = true
+startButton.onclick = () => {
+    let intervalId
+    if (switchTriger === true) {
         intervalId = setInterval(() => {
             counter++;
             counterElement.textContent = counter;
         }, 1000);
+        switchTriger = false
     }
-};
+    const stopCounter = () => {
+        clearInterval(intervalId);
+        switchTriger = true
 
-const stopCounter = () => {
-    clearInterval(intervalId);
-    intervalId = null;
+    };
+    const resetCounter = () => {
+        stopCounter();
+        counter = 0;
+        counterElement.textContent = counter;
+    };
+    stopButton.onclick = () => stopCounter();
+    resetButton.onclick =() => resetCounter();
 };
-
-const resetCounter = () => {
-    stopCounter();
-    counter = 0;
-    counterElement.textContent = counter;
-};
-
-startButton.addEventListener('click', startCounter);
-stopButton.addEventListener('click', stopCounter);
-resetButton.addEventListener('click', resetCounter);
