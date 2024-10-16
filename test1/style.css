@@ -1,0 +1,13 @@
+* {
+    background-color: #e3c1e3;
+}
+
+.fourth {
+    height: 150px;
+    width: 150px;
+    background-color: red;
+    transition: background-color 0.3s; /* Плавный переход */
+}
+.active {
+    background-color: #e8a212; /* Цвет при активации */
+}
