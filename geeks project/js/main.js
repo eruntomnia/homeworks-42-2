@@ -76,46 +76,4 @@ prev.onclick = () => {
 
 autoSlider(index)
 
-// ooo
-// const persons = [
-//     {
-//         name: 'Rhett' ,
-//         age: 45
-//     },
-//     {
-//         name: 'Scarlett' ,
-//         age: 24
-//     },
-//     {
-//         name: 'Melanie' ,
-//         age: 26
-//     },
-//     {
-//         name: 'Ashley' ,
-//         age: 30
-//     },
-//     {
-//         name: 'Mammy' ,
-//         age: 50
-//     },
-//     {
-//         name: 'Ellen' ,
-//         age: 50
-//     },
-//     {
-//         name: 'Gerald' ,
-//         age: 70
-//     },
-//     {
-//         name: 'India' ,
-//         age: 30
-//     },
-// ]
-//
-// const personalBlock = document.querySelector('.characters');
-// persons.forEach((person)) => {
-//     const personCard = document.createElement('div');
-//
-//     personalBlock.appendChild(personCard);
-// })
 

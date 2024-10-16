@@ -28,6 +28,7 @@ const showModalOnScroll = () => {
     }
 };
 
+
 window.addEventListener('scroll', showModalOnScroll);
 
 setTimeout(() => {

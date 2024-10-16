@@ -1,7 +1,7 @@
 //Phone checker
- const phoneInput = document.querySelector('#phone_input')
- const phoneButton = document.querySelector('#phone_button')
- const phoneResult = document.querySelector('#phone_result')
+const phoneInput = document.querySelector('#phone_input')
+const phoneButton = document.querySelector('#phone_button')
+const phoneResult = document.querySelector('#phone_result')
 
 const regExp = /\+996 [2579]\d{2} \d{2}-\d{2}-\d{2}$/
 
@@ -69,3 +69,64 @@ tabParent.onclick = (event) => {
     }
 }
 
+const xhr = new XMLHttpRequest()
+xhr.open('GET', '../data/persons.json')
+xhr.onload = () => {
+    const response = JSON.parse(xhr.response)
+    console.log(response)
+}
+xhr.send()
+
+
+// conveter
+
+const usdInput = document.querySelector('#usd')
+const somInput = document.querySelector('#som')
+
+const converter = (element, targetElement) => {
+    element.oninput = () => {
+        const request = new XMLHttpRequest();
+        request.open('GET', '../data/converter.json')
+        request.setRequestHeader('Content-type', 'application/json')
+        request.send()
+
+        request.onload = () => {
+            const data = JSON.parse(request.response)
+            if (element.id === 'som') {
+                targetElement.value = (element.value / data.usd).toFixed(2)
+            }
+            if (element.id === 'usd') {
+                targetElement.value = (element.value * data.usd).toFixed(2)
+            }
+            if (element.value === '') {
+                targetElement.value = ''
+            }
+        }
+    }
+}
+converter(usdInput, somInput)
+converter(somInput, usdInput)
+
+// somInput.oninput = () => {
+//     const request = new XMLHttpRequest();
+//     request.open('GET', '../data/converter.json')
+//     request.setRequestHeader('Content-type', 'application/json')
+//     request.send()
+//
+//     request.onload = () => {
+//         const data = JSON.parse(request.response)
+//         usdInput.value = (somInput.value / data.usd).toFixed(2)
+//     }
+// }
+//
+// usdInput.oninput = () => {
+//     const request = new XMLHttpRequest();
+//     request.open('GET', '.../data/converter.json')
+//     request.setRequestHeader('Content-type', 'application/json')
+//     request.send()
+//
+//     request.onload = () => {
+//         const data = JSON.parse(request.response)
+//         somInput.value = (usdInput.value * data.usd).toFixed(2)
+//     }
+// }
