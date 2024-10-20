@@ -79,43 +79,44 @@ xhr.send()
 
 
 // conveter
+const som = document.querySelector('#som');
+const usd = document.querySelector('#usd');
+const eur = document.querySelector('#eur');
 
-//
-// const eurInput = document.querySelector('#eur')
-// const usdInput = document.querySelector('#usd')
-// const somInput = document.querySelector('#som')
-//
-//
-// const converter = (element, targetElement) => {
-//     element.oninput = () => {
-//         const request = new XMLHttpRequest();
-//         request.open('GET', '../data/converter.json')
-//         request.setRequestHeader('Content-type', 'application/json')
-//         request.send()
-//
-//         request.onload = () => {
-//             const data = JSON.parse(request.response)
-//             if (element.id === 'som') {
-//                 targetElement.value = (element.value / data.usd).toFixed(2)
-//             }
-//             if (element.id === 'usd') {
-//                 targetElement.value = (element.value * data.usd).toFixed(2)
-//             }
-//             if (element.id === 'eur') {
-//                 targetElement.value = (element.value * data.eur).toFixed(2)
-//             }
-//             if (element.value === '') {
-//                 targetElement.value = ''
-//             }
-//         }
-//     }
-// }
-// converter(usdInput, somInput)
-// converter(somInput, usdInput)
-// converter(eurInput, usdInput)
-// converter(usdInput, eurInput)
-// converter(somInput, eurInput)
-// converter(eurInput, somInput)
+const convert = (elem, targets) => {
+    elem.oninput = () => {
+        const request = new XMLHttpRequest();
+        request.open("GET", "../data/converter.json");
+        request.setRequestHeader("Content-type", "application/json");
+        request.send();
+
+        request.onload = () => {
+            const response = JSON.parse(request.response);
+            const value = parseFloat(elem.value);
+
+            if (isNaN(value) || elem.value === '') {
+                targets.forEach(target => target.value = '');
+                return; 
+            }
+
+            if (elem === som) {
+                usd.value = (value / response.usd).toFixed(2);
+                eur.value = (value / response.eur).toFixed(2);
+            } else if (elem === usd) {
+                som.value = (value * response.usd).toFixed(2);
+                eur.value = (som.value / response.eur).toFixed(2);
+            } else if (elem === eur) {
+                som.value = (value * response.eur).toFixed(2);
+                usd.value = (som.value / response.usd).toFixed(2);
+            }
+        }
+    }
+}
+
+convert(som, [usd, eur]);
+convert(usd, [som, eur]);
+convert(eur, [som, usd]);
+
 
 
 
