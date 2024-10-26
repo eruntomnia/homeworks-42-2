@@ -145,29 +145,90 @@
     flex-direction: column;
 }
 
-/*------WEATHER------*/
 
-.weather {
-    padding: 100px 0;
-    background-color: black;
+/*-------STOP WATCH------ */
+
+.time {
+    color: white;
+    display: flex;
+    justify-content: center;
+    font-size: 80px;
+    height: 100px;
+    width: 100%;
+    border-bottom: 1px solid var(--orange);
+    margin-top: 40px;
 }
 
-.inner_weather > div {
+.time_block {
+    display: flex;
+    width: 500px;
+    justify-content: center;
+}
+
+.stopwatch {
+    padding: 100px 0;
+    background: black;
+}
+
+.time_buttons {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    /* GMAIL BLOCK */
+
+    .gmail_block {
+        background: black;
+        padding: 100px 0;
+    }
+
+    .inner_gmail_block {
+        margin-top: 50px;
+        display: flex;
+        justify-content: space-evenly;
+        border: 1px solid var(--orange);
+        height: 300px;
+        border-radius: 20px;
+        align-items: center;
+    }
+
+    .form_gmail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form_gmail button {
+        width: 100%;
+        margin: 20px 0;
+    }
+}
+
+/* GMAIL BLOCK */
+
+.gmail_block {
+    background: black;
+    padding: 100px 0;
+}
+
+.inner_gmail_block {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-evenly;
+    border: 1px solid var(--orange);
+    height: 300px;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.form_gmail {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    color: white;
-    font-size: 25px;
 }
 
-.inner_weather {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-hr {
+.form_gmail button {
     width: 100%;
+    margin: 20px 0;
 }

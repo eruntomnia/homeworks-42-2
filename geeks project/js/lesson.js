@@ -15,27 +15,26 @@ phoneButton.onclick = () => {
     }
 }
 
-// tab slider
-
-const tapContentBlocks = document.querySelectorAll('.tab_content_block')
-const tabItems = document.querySelectorAll('.tab_content_item')
-const tabParent = document.querySelector('.tab_content_items')
+// Tab slider
+const tapContentBlocks = document.querySelectorAll('.tab_content_block');
+const tabItems = document.querySelectorAll('.tab_content_item');
+const tabParent = document.querySelector('.tab_content_items');
 let currentIndex = 0;
 let timerId;
 
 const hideTabContent = () => {
     tapContentBlocks.forEach((item) => {
         item.style.display = 'none';
-    })
+    });
     tabItems.forEach((item) => {
-        item.classList.remove('tab_content_item_active')
-    })
-}
+        item.classList.remove('tab_content_item_active');
+    });
+};
 
 const showTabContent = (index = 0) => {
-    tapContentBlocks[index].style.display = 'block'
-    tabItems[index].classList.add('tab_content_item_active')
-}
+    tapContentBlocks[index].style.display = 'block';
+    tabItems[index].classList.add('tab_content_item_active');
+};
 
 const startAutoSlide = () => {
     timerId = setTimeout(function autoSwitch() {
@@ -50,11 +49,12 @@ const stopAutoSlide = () => {
     clearTimeout(timerId);
 };
 
-hideTabContent()
-showTabContent(0)
+// Начальная настройка вкладок
+hideTabContent();
+showTabContent(0);
 startAutoSlide();
 
-
+// Обработчик для кликов по вкладкам
 tabParent.onclick = (event) => {
     if (event.target.classList.contains('tab_content_item')) {
         tabItems.forEach((item, index) => {
@@ -65,86 +65,58 @@ tabParent.onclick = (event) => {
                 currentIndex = index;
                 startAutoSlide();
             }
-        })
+        });
     }
-}
+};
 
-const xhr = new XMLHttpRequest()
-xhr.open('GET', '../data/persons.json')
-xhr.onload = () => {
-    const response = JSON.parse(xhr.response)
-    console.log(response)
-}
-xhr.send()
+// Асинхронная функция для получения данных
+const fetchData = async () => {
+    try {
+        const response = await fetch('../data/persons.json');
 
-
-// conveter
-const som = document.querySelector('#som');
-const usd = document.querySelector('#usd');
-const eur = document.querySelector('#eur');
-
-const convert = (elem, targets) => {
-    elem.oninput = () => {
-        const request = new XMLHttpRequest();
-        request.open("GET", "../data/converter.json");
-        request.setRequestHeader("Content-type", "application/json");
-        request.send();
-
-        request.onload = () => {
-            const response = JSON.parse(request.response);
-            const value = parseFloat(elem.value);
-
-            if (isNaN(value) || elem.value === '') {
-                targets.forEach(target => target.value = '');
-                return; 
-            }
-
-            if (elem === som) {
-                usd.value = (value / response.usd).toFixed(2);
-                eur.value = (value / response.eur).toFixed(2);
-            } else if (elem === usd) {
-                som.value = (value * response.usd).toFixed(2);
-                eur.value = (som.value / response.eur).toFixed(2);
-            } else if (elem === eur) {
-                som.value = (value * response.eur).toFixed(2);
-                usd.value = (som.value / response.usd).toFixed(2);
-            }
+        if (!response.ok) {
+            throw new Error('Ошибка загрузки данных');
         }
+
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Ошибка:', error.message);
     }
-}
+};
 
-convert(som, [usd, eur]);
-convert(usd, [som, eur]);
-convert(eur, [som, usd]);
-
+// Вызов функции для получения данных
+fetchData();
 
 
 
-// CARD
+//Card
 const card = document.querySelector('.card');
 const prevButton = document.querySelector('#btn-prev');
 const nextButton = document.querySelector('#btn-next');
 
 let cardId = 1;
 
-const fetchCard = (id) => {
-    fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Ошибка загрузки карточки');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            const { id, title, completed } = data;
-            card.innerHTML = `
-                <p>${title}</p>
-                <p>${completed}</p>
-                <span>${id}</span>
-            `;
-        })
-};
+const fetchCard = async (id) => {
+    try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
 
+        if (!response.ok) {
+            throw new Error('Ошибка загрузки карточки');
+        }
+
+        const data = await response.json();
+        const { title, completed } = data;
+
+        card.innerHTML = `
+            <p>${title}</p>
+            
+        `;
+    } catch (error) {
+        console.error('Ошибка:', error.message);
+        card.innerHTML = `<p>Не удалось загрузить карточку.</p>`;
+    }
+};
 
 fetchCard(cardId);
 
@@ -158,11 +130,60 @@ prevButton.onclick = () => {
     fetchCard(cardId);
 };
 
-// fetch
+// Запрос всех данных из posts для примера
 fetch('https://jsonplaceholder.typicode.com/posts')
-    .then((response) => {
-        return response.json();
-    })
+    .then((response) => response.json())
     .then((data) => {
         console.log(data);
-    });
+    })
+    .catch((error) => console.error('Ошибка загрузки постов:', error));
+
+
+//TIME
+let counterElement = document.getElementById('seconds');
+let startButton = document.getElementById('start');
+let stopButton = document.getElementById('stop');
+let resetButton = document.getElementById('reset');
+
+let counter = 0;
+let switchTriger = true
+startButton.onclick = () => {
+    let intervalId
+    if (switchTriger === true) {
+        intervalId = setInterval(() => {
+            counter++;
+            counterElement.textContent = counter;
+        }, 1000);
+        switchTriger = false
+    }
+    const stopCounter = () => {
+        clearInterval(intervalId);
+        switchTriger = true
+
+    };
+    const resetCounter = () => {
+        stopCounter();
+        counter = 0;
+        counterElement.textContent = counter;
+    };
+    stopButton.onclick = () => stopCounter();
+    resetButton.onclick =() => resetCounter();
+};
+
+// // EMAIL
+// const gmail_input = document.querySelector('#gmail_input')
+// const gmail_button = document.querySelector('#gmail_button')
+// const gmail_result = document.querySelector('#gmail_result')
+//
+// const regExp = /^[a-zA-Z0-9._%+-]+@gmail\.com$/
+//
+// gmail_button.onclick = () => {
+//     if (regExp.test(gmail_input.value)) {
+//         gmail_result.innerHTML = 'That is ok👍'
+//         gmail_result.style.color = 'green'
+//     } else {
+//         gmail_result.innerHTML = 'Try again🤗'
+//         gmail_result.style.color = 'red'
+//     }
+// }
+
